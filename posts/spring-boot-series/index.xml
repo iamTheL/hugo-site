@@ -1,1 +1,134 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Spring Boot Series on Padmanabhan Manoharan</title><link>https://paddymano.github.io/posts/spring-boot-series/</link><description>Recent content in Spring Boot Series on Padmanabhan Manoharan</description><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Sun, 21 Feb 2021 12:13:44 +0530</lastBuildDate><atom:link href="https://paddymano.github.io/posts/spring-boot-series/index.xml" rel="self" type="application/rss+xml"/><item><title>First Series</title><link>https://paddymano.github.io/posts/spring-boot-series/first-series/</link><pubDate>Sun, 21 Feb 2021 11:58:42 +0530</pubDate><guid>https://paddymano.github.io/posts/spring-boot-series/first-series/</guid><description/><content type="html"></content></item></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Spring Boot Series on Padmanabhan Manoharan</title><link>https://paddymano.github.io/posts/spring-boot-series/</link><description>Recent content in Spring Boot Series on Padmanabhan Manoharan</description><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Sun, 21 Feb 2021 12:13:44 +0530</lastBuildDate><atom:link href="https://paddymano.github.io/posts/spring-boot-series/index.xml" rel="self" type="application/rss+xml"/><item><title>End Points Definition</title><link>https://paddymano.github.io/posts/spring-boot-series/end-points-definition/</link><pubDate>Mon, 22 Mar 2021 11:35:49 +0530</pubDate><guid>https://paddymano.github.io/posts/spring-boot-series/end-points-definition/</guid><description>If you are new to this post, this is a continuation of the springboot-series where we are developing an food delivery app with Spring Boot do check it out.
+Web APIs are exposed through REST style over HTTP/HTTPS in our coding example.
+Hypertext Transfer Protocol(HTTP) / Hypertext Transfer Protocol Secure(HTTPS) specifies verbs over which data is transferred between a client and server.
+Hopefully if you are following up on my series you would have deduced by now that we are setting up an client-server architecture.</description><content type="html"><![CDATA[<p>If you are new to this post, this is a continuation of the <em><a href="/tags/springboot-series/">springboot-series</a></em> where we are developing an food delivery app with Spring Boot do check it out.</p>
+<p>Web APIs are exposed through REST style over HTTP/HTTPS in our coding <a href="/posts/spring-boot-series/a-index">example</a>.</p>
+<p>Hypertext Transfer Protocol(HTTP) / Hypertext Transfer Protocol Secure(HTTPS) specifies <em>verbs</em> over which data is transferred between a client and server.</p>
+<p>Hopefully if you are following up on my series you would have deduced by now that we are setting up an client-server architecture. The client and server can change independently but are bound a <em>contract</em>, as far as the contract is not violated the changes do not involve its counter part to under a similar change.</p>
+<p>The verbs defines how the request needs to be framed to use the HTTProtocol. The various HTTP verbs are:</p>
+<ol>
+<li>
+<p>GET</p>
+</li>
+<li>
+<p>POST</p>
+</li>
+<li>
+<p>PUT</p>
+</li>
+<li>
+<p>PATCH</p>
+</li>
+<li>
+<p>DELETE</p>
+</li>
+</ol>
+<p>There are a lots of posts which define what each does so I am going to skip ahead of that. But what we will establishing here is what verb to be used for what kind of operation we would want to perform. Let&rsquo;s take the CRUD operation and start assigning verbs for each.</p>
+<p>I prefer to use,</p>
+<table>
+<thead>
+<tr>
+<th>HTTP Verb</th>
+<th>Body ?</th>
+<th>CRUD Operation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>Yes</td>
+<td>Create a new resource in the server</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>No (can as per RFC document)</td>
+<td>Read / retrieve  a specific resource from the server</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>Yes</td>
+<td>Update ALL the properties of a resource with the data from the request body</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td></td>
+<td>Update SELECT property(s) of a resource with the data from request body</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td></td>
+<td>Delete the resource from the server</td>
+</tr>
+</tbody>
+</table>
+<p>Now having established this mapping, lets talk about the elephant in the room.</p>
+<p>PUT vs PATCH.</p>
+<p>PUT and PATCH verbs seems to perform the same operation, update a resource. But a clear distinction is established in the implementation of the methods.</p>
+<p>When using PUT all the properties of the resource is sent in the request body and ALL of it has to be replaced if the resource exists, else create the resource.</p>
+<p>When using PATCH only the SPECIFIC property that is passed in the request body alone will be overwritten.</p>
+<p>Let&rsquo;s demonstrate this with an example,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">POST</span> <span style="color:#960050;background-color:#1e0010">/user</span>
+ <span style="color:#960050;background-color:#1e0010">Requet</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Loreum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
+ <span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span>{<span style="color:#f92672">&#34;userID&#34;</span> : <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Loreum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
+<span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">GET</span> <span style="color:#960050;background-color:#1e0010">/user/</span><span style="color:#ae81ff">1</span>
+ <span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span>{<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Loreum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
+</code></pre></div><p>Now when using a PUT request your request would want to be</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">PUT</span> <span style="color:#960050;background-color:#1e0010">/user/</span><span style="color:#ae81ff">1</span>
+<span style="color:#960050;background-color:#1e0010">Request</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
+<span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;userID&#34;</span> : <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
+</code></pre></div><p>Now when using a PATCH your request looks like,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">PATCH</span> <span style="color:#960050;background-color:#1e0010">/user/</span><span style="color:#ae81ff">1</span>
+<span style="color:#960050;background-color:#1e0010">Request</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>}
+<span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
+</code></pre></div><p>When the <code>email</code> property is missed out in the request body what should happen is the</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">PUT</span> <span style="color:#960050;background-color:#1e0010">/user/</span><span style="color:#ae81ff">1</span>
+<span style="color:#960050;background-color:#1e0010">Request</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>}
+<span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>}
+<span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">GET</span> <span style="color:#960050;background-color:#1e0010">/user/</span><span style="color:#ae81ff">1</span>
+ <span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span>{<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>}
+</code></pre></div><p>If you had noticed this is what the server is supposed to respond when doing a PUT without the complete list of properties.</p>
+<p>Since PATCH is a relatively new(<em>2010!!??</em>) to the race this specification is not handled by many of the libraries which provide them.</p>
+<p>However, with Springboot this is something that has to be handled explicitly. Having established what HTTP verb we are going to each of the operation let&rsquo;s move to the next step.</p>
+]]></content></item><item><title>Spring Boot Series - Classical Hello World !!</title><link>https://paddymano.github.io/posts/spring-boot-series/classical-hello-world/</link><pubDate>Fri, 19 Mar 2021 11:05:38 +0530</pubDate><guid>https://paddymano.github.io/posts/spring-boot-series/classical-hello-world/</guid><description>Classical Hello World application using Spring Boot
+Spring boot is one of the popular Java framework, which under the hood comprises of multiple Spring based Java projects at its core. Spring boot helps to get started with stand-alone Spring based applications with minimal coding.
+Spring boot provides an Embedded Tomcat, Jetty or Undertow runtime environments for the jar/war to run as stand-alone applications along with many other useful features.
+Web applications are developed at a faster phase using Spring boot owing to its inherent support for simplifying web development.</description><content type="html"><![CDATA[<p>Classical <em>Hello World</em> application using Spring Boot</p>
+<p>Spring boot is <em>one</em> of the popular Java framework, which under the hood comprises of multiple Spring based Java projects at its core. Spring boot helps to get started with stand-alone Spring based applications with minimal coding.</p>
+<p>Spring boot provides an Embedded Tomcat, Jetty or Undertow runtime environments for the jar/war to run as stand-alone applications along with many other useful features.</p>
+<p>Web applications are developed at a faster phase using Spring boot owing to its inherent support for simplifying web development.</p>
+<h3 id="by-end-of-this-post-you-hopefully-would-have">By end of this post you hopefully would have:</h3>
+<ol>
+<li>Created a multi module maven Spring boot project</li>
+<li>Host a REST based API project which solves <a href="https://paddymano.github.io/posts/spring-boot-series/a-index/#basic-requirement-includes" title="Basic requirement for the app">this</a></li>
+</ol>
+<p>In addition to the list most of the very basic features are also added and will mostly be covered in this post, naming a few</p>
+<ol>
+<li>Swagger 3.0</li>
+<li>Spring Data JPA</li>
+<li>API Exception Handler</li>
+<li>Spring Boot Developer tools</li>
+</ol>
+<p>These are the few features I deem to be minimal/essential when starting with API development.</p>
+<h3 id="multi-module-maven-project">Multi Module Maven Project</h3>
+<p>Multi module maven projects proved to be a successful project structure when working with teams varying from moderate to large in size. Having a parent pom.xml to control the version of the dependent library that are going to be common across multiple projects is the power that you want. Instead of having to mention the same dependency in each of the child projects, mentioning it once in the parent project proves to be manageable and less error prone. This greatly comes in handy when you have to run your application for a SAST or DAST and have to bump up the version to address a particular CVE. It becomes painfully annoying when the application grows rapidly and we end up creating separate modules to handle growing business requirements <em>(which we will be doing)</em> and each having its own version for the same dependency.</p>
+<p>The project structure which I will be using is,</p>
+<p><img src="/static/initial-project-structure.PNG" alt="Initial Project structure"></p>
+<p>With the multi-module maven setup the parent project is <em>annam-services</em> which encapsulates multiple modules. For now we have one module named <em>core</em>. We can see the benefits of this project structure in the <em>pom.xml</em> files below.</p>
+<p><img src="/static/parent-child-pom.PNG" alt="parent-child-pom"></p>
+<p>The <em>parent pom</em> to the left holds all the major dependencies while the <em>child pom</em> need doesn&rsquo;t need to repeat it every time.</p>
+<p>Having outlined few of the benefits of a multi-module maven project let&rsquo;s see about creating endpoints in the <a href="https://paddymano.github.io/posts/spring-boot-series/end-points-definition/" title="Basic requirement for the app">next post</a> .</p>
+]]></content></item><item><title>Spring Boot Series - Food Ordering App</title><link>https://paddymano.github.io/posts/spring-boot-series/a-index/</link><pubDate>Fri, 19 Mar 2021 11:05:38 +0530</pubDate><guid>https://paddymano.github.io/posts/spring-boot-series/a-index/</guid><description>Spring boot series revolves around designing and developing a food delivery application using Spring Boot framework. The idea here is to share my experience with Spring boot in designing a solution with as many features as possible. All the working components of the application will be listed as a lookup for the entire series in this post.
+I will try my best to post it sequentially for a smoother navigation even though each post is a stand-alone post addressing one feature at a time.</description><content type="html"><![CDATA[<p>Spring boot series revolves around designing and developing a food delivery application using Spring Boot framework. The idea here is to share my experience with Spring boot in designing a solution with as many features as possible. All the working components of the application will be listed as a lookup for the entire series in this post.</p>
+<p>I will try my best to post it sequentially for a smoother navigation even though each post is a stand-alone post addressing one feature at a time.</p>
+<p>So this is what I will be building from scratch.</p>
+<p>A food delivery application (which I named to be <em>annam</em> - a Tamil word that translates to cooked food in English) in which the backend services are exposed as REST APIs for majority of the features.</p>
+<h3 id="basic-requirement-includes">Basic Requirement includes:</h3>
+<p><img src="/static/basic-req.PNG" alt="basic-requirement"></p>
+<p>The entities identified above are the very basic entities that would be required to kick start this application.</p>
+<p>So the <a href="https://paddymano.github.io/posts/spring-boot-series/classical-hello-world/" title="Hello World with Spring boot">Classical Hello World</a> will try to cover as much as possible in a single post.</p>
+<p>This involves the basic CRUD operation on these entities. Followed by a series of detailed features that are added on top of this basic operation.</p>
+<h3 id="index">Index:</h3>
+<ol>
+<li><a href="https://paddymano.github.io/posts/spring-boot-series/classical-hello-world/" title="Hello World with Spring boot">Classical Hello World</a></li>
+</ol>
+]]></content></item></channel></rss>
