@@ -67,26 +67,26 @@ Hopefully if you are following up on my series you would have deduced by now tha
 <p>When using PUT all the properties of the resource is sent in the request body and ALL of it has to be replaced if the resource exists, else create the resource.</p>
 <p>When using PATCH only the SPECIFIC property that is passed in the request body alone will be overwritten.</p>
 <p>Let&rsquo;s demonstrate this with an example,</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">POST</span> <span style="color:#960050;background-color:#1e0010">/user</span>
- <span style="color:#960050;background-color:#1e0010">Requet</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Loreum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
- <span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span>{<span style="color:#f92672">&#34;userID&#34;</span> : <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Loreum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
-<span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">GET</span> <span style="color:#960050;background-color:#1e0010">/user/</span><span style="color:#ae81ff">1</span>
- <span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span>{<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Loreum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
-</code></pre></div><p>Now when using a PUT request your request would want to be</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">PUT</span> <span style="color:#960050;background-color:#1e0010">/user/</span><span style="color:#ae81ff">1</span>
-<span style="color:#960050;background-color:#1e0010">Request</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
-<span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;userID&#34;</span> : <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
-</code></pre></div><p>Now when using a PATCH your request looks like,</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">PATCH</span> <span style="color:#960050;background-color:#1e0010">/user/</span><span style="color:#ae81ff">1</span>
-<span style="color:#960050;background-color:#1e0010">Request</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>}
-<span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
-</code></pre></div><p>When the <code>email</code> property is missed out in the request body what should happen is the</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">PUT</span> <span style="color:#960050;background-color:#1e0010">/user/</span><span style="color:#ae81ff">1</span>
-<span style="color:#960050;background-color:#1e0010">Request</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>}
-<span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>}
-<span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">GET</span> <span style="color:#960050;background-color:#1e0010">/user/</span><span style="color:#ae81ff">1</span>
- <span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span>{<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>}
-</code></pre></div><p>If you had noticed this is what the server is supposed to respond when you PUT a request without the complete list of properties.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">POST</span> <span style="color:#960050;background-color:#1e0010">/user</span>
+</span></span><span style="display:flex;"><span> <span style="color:#960050;background-color:#1e0010">Requet</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Loreum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
+</span></span><span style="display:flex;"><span> <span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span>{<span style="color:#f92672">&#34;userID&#34;</span> : <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Loreum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">GET</span> <span style="color:#960050;background-color:#1e0010">/user/</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span> <span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span>{<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Loreum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
+</span></span></code></pre></div><p>Now when using a PUT request your request would want to be</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">PUT</span> <span style="color:#960050;background-color:#1e0010">/user/</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Request</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;userID&#34;</span> : <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
+</span></span></code></pre></div><p>Now when using a PATCH your request looks like,</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">PATCH</span> <span style="color:#960050;background-color:#1e0010">/user/</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Request</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>}
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>,<span style="color:#f92672">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;loreum@ipsum.com&#34;</span>}
+</span></span></code></pre></div><p>When the <code>email</code> property is missed out in the request body what should happen is the</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">PUT</span> <span style="color:#960050;background-color:#1e0010">/user/</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Request</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>}
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span> {<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>}
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">##</span> <span style="color:#960050;background-color:#1e0010">GET</span> <span style="color:#960050;background-color:#1e0010">/user/</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span> <span style="color:#960050;background-color:#1e0010">Response</span> <span style="color:#960050;background-color:#1e0010">-&gt;</span>{<span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Ipsum&#34;</span>}
+</span></span></code></pre></div><p>If you had noticed this is what the server is supposed to respond when you PUT a request without the complete list of properties.</p>
 <p>Since PATCH is a relatively new(<em>2010!!??</em>) to the race this specification is not handled by many of the libraries which provide them.</p>
 <p>However, with Springboot this is something that has to be handled explicitly. Having established what HTTP verb we are going to each of the operation let&rsquo;s move to the next step.</p>
 ]]></content></item><item><title>Spring Boot Series - Food Ordering App</title><link>https://padmano.github.io/posts/spring-boot-series/a-index/</link><pubDate>Sun, 21 Mar 2021 00:00:00 +0000</pubDate><guid>https://padmano.github.io/posts/spring-boot-series/a-index/</guid><description>Spring boot series revolves around designing and developing a food delivery application using Spring Boot framework. The idea here is to share my experience with Spring boot in designing a solution with as many features as possible. All the working components of the application will be listed as a lookup for the entire series in this post.
@@ -133,81 +133,81 @@ Spring boot is one of the popular Spring based Java framework, which under the h
 <p><img src="/static/parent-child-pom.PNG" alt="parent-child-pom"></p>
 <p>The <em>parent pom.xml</em> to the left holds all the major dependencies while the <em>child pom.xml</em> need doesn&rsquo;t need to repeat it every time.</p>
 <p>The basic dependencies that are present in parent module are,</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">  <span style="color:#f92672">&lt;dependencies&gt;</span>
-
-<span style="color:#75715e">&lt;!--    Main Spring boot web dependency--&gt;</span>
-    <span style="color:#f92672">&lt;dependency&gt;</span>
-      <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
-      <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-web<span style="color:#f92672">&lt;/artifactId&gt;</span>
-    <span style="color:#f92672">&lt;/dependency&gt;</span>
-
-<span style="color:#75715e">&lt;!--    Developer friendly tools--&gt;</span>
-    <span style="color:#f92672">&lt;dependency&gt;</span>
-      <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
-      <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-actuator<span style="color:#f92672">&lt;/artifactId&gt;</span>
-    <span style="color:#f92672">&lt;/dependency&gt;</span>
-    <span style="color:#f92672">&lt;dependency&gt;</span>
-      <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
-      <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-devtools<span style="color:#f92672">&lt;/artifactId&gt;</span>
-      <span style="color:#f92672">&lt;scope&gt;</span>runtime<span style="color:#f92672">&lt;/scope&gt;</span>
-      <span style="color:#f92672">&lt;optional&gt;</span>true<span style="color:#f92672">&lt;/optional&gt;</span>
-    <span style="color:#f92672">&lt;/dependency&gt;</span>
-    <span style="color:#f92672">&lt;dependency&gt;</span>
-      <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
-      <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-configuration-processor<span style="color:#f92672">&lt;/artifactId&gt;</span>
-      <span style="color:#f92672">&lt;optional&gt;</span>true<span style="color:#f92672">&lt;/optional&gt;</span>
-    <span style="color:#f92672">&lt;/dependency&gt;</span>
-    <span style="color:#f92672">&lt;dependency&gt;</span>
-      <span style="color:#f92672">&lt;groupId&gt;</span>org.projectlombok<span style="color:#f92672">&lt;/groupId&gt;</span>
-      <span style="color:#f92672">&lt;artifactId&gt;</span>lombok<span style="color:#f92672">&lt;/artifactId&gt;</span>
-      <span style="color:#f92672">&lt;optional&gt;</span>true<span style="color:#f92672">&lt;/optional&gt;</span>
-    <span style="color:#f92672">&lt;/dependency&gt;</span>
-    <span style="color:#f92672">&lt;dependency&gt;</span>
-      <span style="color:#f92672">&lt;groupId&gt;</span>org.modelmapper<span style="color:#f92672">&lt;/groupId&gt;</span>
-      <span style="color:#f92672">&lt;artifactId&gt;</span>modelmapper<span style="color:#f92672">&lt;/artifactId&gt;</span>
-      <span style="color:#f92672">&lt;version&gt;</span>2.3.0<span style="color:#f92672">&lt;/version&gt;</span>
-    <span style="color:#f92672">&lt;/dependency&gt;</span>
-
-<span style="color:#75715e">&lt;!--    Spring Data with Postgres--&gt;</span>
-    <span style="color:#f92672">&lt;dependency&gt;</span>
-      <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
-      <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-data-jpa<span style="color:#f92672">&lt;/artifactId&gt;</span>
-    <span style="color:#f92672">&lt;/dependency&gt;</span>
-    <span style="color:#f92672">&lt;dependency&gt;</span>
-      <span style="color:#f92672">&lt;groupId&gt;</span>org.postgresql<span style="color:#f92672">&lt;/groupId&gt;</span>
-      <span style="color:#f92672">&lt;artifactId&gt;</span>postgresql<span style="color:#f92672">&lt;/artifactId&gt;</span>
-      <span style="color:#f92672">&lt;scope&gt;</span>runtime<span style="color:#f92672">&lt;/scope&gt;</span>
-    <span style="color:#f92672">&lt;/dependency&gt;</span>
-
-<span style="color:#75715e">&lt;!--    Bootstrapped single dependency for swagger and swagger ui--&gt;</span>
-    <span style="color:#f92672">&lt;dependency&gt;</span>
-      <span style="color:#f92672">&lt;groupId&gt;</span>io.springfox<span style="color:#f92672">&lt;/groupId&gt;</span>
-      <span style="color:#f92672">&lt;artifactId&gt;</span>springfox-boot-starter<span style="color:#f92672">&lt;/artifactId&gt;</span>
-      <span style="color:#f92672">&lt;version&gt;</span>3.0.0<span style="color:#f92672">&lt;/version&gt;</span>
-    <span style="color:#f92672">&lt;/dependency&gt;</span>
-
-<span style="color:#75715e">&lt;!--    Spring boot test--&gt;</span>
-    <span style="color:#f92672">&lt;dependency&gt;</span>
-      <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
-      <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-test<span style="color:#f92672">&lt;/artifactId&gt;</span>
-      <span style="color:#f92672">&lt;scope&gt;</span>test<span style="color:#f92672">&lt;/scope&gt;</span>
-    <span style="color:#f92672">&lt;/dependency&gt;</span>
-
-  <span style="color:#f92672">&lt;/dependencies&gt;</span>	
-</code></pre></div><p>Spring boot starter web acts as the parent for our parent module,</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;parent&gt;</span>
-  <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
-  <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-parent<span style="color:#f92672">&lt;/artifactId&gt;</span>
-  <span style="color:#f92672">&lt;version&gt;</span>2.4.3<span style="color:#f92672">&lt;/version&gt;</span>
-  <span style="color:#f92672">&lt;relativePath/&gt;</span> <span style="color:#75715e">&lt;!-- lookup parent from repository --&gt;</span>
-<span style="color:#f92672">&lt;/parent&gt;</span>			
-</code></pre></div><p>The rest of the meta information for the parent module is,</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;groupId&gt;</span>io.annam<span style="color:#f92672">&lt;/groupId&gt;</span>
-<span style="color:#f92672">&lt;artifactId&gt;</span>parent<span style="color:#f92672">&lt;/artifactId&gt;</span>
-<span style="color:#f92672">&lt;version&gt;</span>0.0.1-SNAPSHOT<span style="color:#f92672">&lt;/version&gt;</span>
-<span style="color:#f92672">&lt;name&gt;</span>parent<span style="color:#f92672">&lt;/name&gt;</span>
-<span style="color:#f92672">&lt;description&gt;</span>Parent Project for Annam Services<span style="color:#f92672">&lt;/description&gt;</span>
-<span style="color:#f92672">&lt;packaging&gt;</span>pom<span style="color:#f92672">&lt;/packaging&gt;</span>
-</code></pre></div><p>The key property is the <!-- raw HTML omitted --> tag where the value is set to <code>pom</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>  <span style="color:#f92672">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!--    Main Spring boot web dependency--&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-web<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!--    Developer friendly tools--&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-actuator<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-devtools<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;scope&gt;</span>runtime<span style="color:#f92672">&lt;/scope&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;optional&gt;</span>true<span style="color:#f92672">&lt;/optional&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-configuration-processor<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;optional&gt;</span>true<span style="color:#f92672">&lt;/optional&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;groupId&gt;</span>org.projectlombok<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;artifactId&gt;</span>lombok<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;optional&gt;</span>true<span style="color:#f92672">&lt;/optional&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;groupId&gt;</span>org.modelmapper<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;artifactId&gt;</span>modelmapper<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;version&gt;</span>2.3.0<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!--    Spring Data with Postgres--&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-data-jpa<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;groupId&gt;</span>org.postgresql<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;artifactId&gt;</span>postgresql<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;scope&gt;</span>runtime<span style="color:#f92672">&lt;/scope&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!--    Bootstrapped single dependency for swagger and swagger ui--&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;groupId&gt;</span>io.springfox<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;artifactId&gt;</span>springfox-boot-starter<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;version&gt;</span>3.0.0<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!--    Spring boot test--&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-test<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;scope&gt;</span>test<span style="color:#f92672">&lt;/scope&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/dependencies&gt;</span>	
+</span></span></code></pre></div><p>Spring boot starter web acts as the parent for our parent module,</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;parent&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-parent<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;version&gt;</span>2.4.3<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;relativePath/&gt;</span> <span style="color:#75715e">&lt;!-- lookup parent from repository --&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/parent&gt;</span>			
+</span></span></code></pre></div><p>The rest of the meta information for the parent module is,</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;groupId&gt;</span>io.annam<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;artifactId&gt;</span>parent<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;version&gt;</span>0.0.1-SNAPSHOT<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;name&gt;</span>parent<span style="color:#f92672">&lt;/name&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;description&gt;</span>Parent Project for Annam Services<span style="color:#f92672">&lt;/description&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;packaging&gt;</span>pom<span style="color:#f92672">&lt;/packaging&gt;</span>
+</span></span></code></pre></div><p>The key property is the <!-- raw HTML omitted --> tag where the value is set to <code>pom</code>.</p>
 <p>Having outlined few of the benefits of a multi-module maven project let&rsquo;s see about creating endpoints in the <a href="https://padmano.github.io/posts/spring-boot-series/end-points-definition/" title="Basic requirement for the app">next post</a> .</p>
 ]]></content></item></channel></rss>
