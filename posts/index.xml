@@ -1,10 +1,11 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Padmanabhan Manoharan</title><link>https://padmano.github.io/posts/</link><description>Recent content in Posts on Padmanabhan Manoharan</description><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Sun, 28 Aug 2022 20:15:12 +0530</lastBuildDate><atom:link href="https://padmano.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Micro:Bit Explained</title><link>https://padmano.github.io/posts/micro-bit/micro-bit-explained/</link><pubDate>Sun, 28 Aug 2022 20:15:12 +0530</pubDate><guid>https://padmano.github.io/posts/micro-bit/micro-bit-explained/</guid><description>This post explain what micro:bit has to offer. As soon as I saw a post with rust support for micro:bit I purchased it without any hesitation. So now lets see what this awesome development board has got.
-The board is slick with minimal design (according to me).
-If the pic looks overwhelming, relax, we are going to decode the components that matter the most as a developer.
-Application Processor Our code is executed in the application processor.</description><content type="html"><![CDATA[<p>This post explain what micro:bit has to offer. As soon as I saw a post with rust support for micro:bit I purchased it without any hesitation. So now lets see what this awesome development board has got.</p>
-<p>The board is slick with minimal design (<em>according to me</em>).</p>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Padmanabhan Manoharan</title><link>https://padmano.github.io/posts/</link><description>Recent content in Posts on Padmanabhan Manoharan</description><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Sun, 28 Aug 2022 20:15:12 +0530</lastBuildDate><atom:link href="https://padmano.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>micro:bit Hardware Specifications</title><link>https://padmano.github.io/posts/micro-bit/micro-bit-explained/</link><pubDate>Sun, 28 Aug 2022 20:15:12 +0530</pubDate><guid>https://padmano.github.io/posts/micro-bit/micro-bit-explained/</guid><description>micro:bit is a System-On-Chip (SOC) development board powered by ARM core. The support for this development has been outstanding and beginer friendly.
+The board is slick with minimal design and compact for quick prototyping.
+If the above pic looks overwhelming, relax, we are going to decode the components that matter the most as a developer.
+Application Processor Our code is executed in the application processor.
+The processor is an Arm Cortex-M4 32 bit processor supporting cool features like</description><content type="html"><![CDATA[<p>micro:bit is a System-On-Chip (SOC) development board powered by ARM core. The support for this development has been outstanding and beginer friendly.</p>
+<p>The board is slick with minimal design and compact for quick prototyping.</p>
 <p><img src="/static/micro-bit/microbit-hardware.png" alt="micro:bit hardware"></p>
-<p>If the pic looks overwhelming, relax, we are going to decode the components that matter the most as a developer.</p>
+<p>If the above pic looks overwhelming, relax, we are going to decode the components that matter the most as a developer.</p>
 <h2 id="application-processor">Application Processor</h2>
 <hr>
 <p>Our code is executed in the application processor.</p>
@@ -23,8 +24,8 @@ Application Processor Our code is executed in the application processor.</descri
 <h2 id="bluetooth">Bluetooth</h2>
 <hr>
 <p><img src="/static/micro-bit/microbit-drawing-back-bluetooth-antenna.png" alt="micro:bit hardware"></p>
-<p>The on-board 2.4GHz antenna provides the required transceiver for setting up a bluetooth connection. The <a href="https://www.nordicsemi.com/Software-and-Tools/Software/S113">Nordic S113 SoftDevice</a> provides the BLE energy stack to easily communicate with other Bluetooth devices. With this current protocol stack, upto 4 connections, as a Peripheral, can connect concurrently to a Broadcaster.</p>
-<p>With the 2.4GHz its possible to connect with multiple devices that operate in this range including WiFi in the 2.4GHz range, wireless microphone, speakers, etc.</p>
+<p>The on-board 2.4GHz antenna provides the required transceiver for setting up the bluetooth connection. The <a href="https://www.nordicsemi.com/Software-and-Tools/Software/S113">Nordic S113 SoftDevice</a> provides the BLE energy stack to easily communicate with other Bluetooth devices. With this current protocol stack, upto 4 connections, as a Peripheral, can connect concurrently to a Broadcaster.</p>
+<p>With the 2.4GHz transceiver its possible to connect with multiple devices that operate in this range including WiFi in the 2.4GHz range, wireless microphone, speakers, etc.</p>
 <h2 id="peripherals">Peripherals</h2>
 <hr>
 <p>The bunch of other peripherals present connected on-boards are:</p>
@@ -39,4 +40,7 @@ Application Processor Our code is executed in the application processor.</descri
 <li>Temperature Sensor</li>
 </ol>
 <p>All these peripherals are clearly marked on the board for easy identification.</p>
+<h2 id="programming">Programming</h2>
+<hr>
+<p>micro:bit is easily programmable with micro-python and rust.</p>
 ]]></content></item><item><title>Spring Boot Series</title><link>https://padmano.github.io/posts/spring-boot-series/</link><pubDate>Sun, 21 Feb 2021 12:13:44 +0530</pubDate><guid>https://padmano.github.io/posts/spring-boot-series/</guid><description/><content type="html"></content></item></channel></rss>
