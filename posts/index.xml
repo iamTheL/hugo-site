@@ -43,4 +43,14 @@ The processor is an Arm Cortex-M4 32 bit processor supporting cool features like
 <h2 id="programming">Programming</h2>
 <hr>
 <p>micro:bit is easily programmable with micro-python and rust.</p>
+<p>For python there are really cool gamified online editors like</p>
+<ol>
+<li>
+<p><a href="https://makecode.microbit.org/">MakeCode editor</a></p>
+</li>
+<li>
+<p><a href="https://python.microbit.org/v/2">Python online editor</a></p>
+<p>All these come with easy plugins to push code to micro:bit</p>
+</li>
+</ol>
 ]]></content></item><item><title>Spring Boot Series</title><link>https://padmano.github.io/posts/spring-boot-series/</link><pubDate>Sun, 21 Feb 2021 12:13:44 +0530</pubDate><guid>https://padmano.github.io/posts/spring-boot-series/</guid><description/><content type="html"></content></item></channel></rss>
